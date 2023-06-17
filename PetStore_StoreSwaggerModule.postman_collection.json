@@ -1,0 +1,214 @@
+{
+	"info": {
+		"_postman_id": "777ea309-6055-480a-8ea9-6ced590df02e",
+		"name": "PetStore_StoreSwaggerModule",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "22847648",
+		"_collection_link": "https://planetary-station-483759.postman.co/workspace/eb65d29b-f81a-4b33-a5be-7ee12475630e/collection/22847648-777ea309-6055-480a-8ea9-6ced590df02e?action=share&creator=22847648&source=collection_link"
+	},
+	"item": [
+		{
+			"name": "CreateOrderID",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							"\r",
+							"var jsondata  = pm.response.json();\r",
+							"\r",
+							"\r",
+							"pm.test(\"validate the statude code \",  () => {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							" pm.test(\"validate the response body\" , () => {\r",
+							"  pm.expect(jsondata.id).to.eql(pm.collectionVariables.get(\"orderid\"));\r",
+							"  });\r",
+							"\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							" \r",
+							"             const randomid=  Math.floor((Math.random()*10+1));\r",
+							"    \r",
+							"         \r",
+							"\r",
+							"     pm.collectionVariables.set(\"orderid\",randomid);\r",
+							"        pm.collectionVariables.set(\"petid\",randomid);\r",
+							"   pm.collectionVariables.set(\"quantitiy\",randomid);\r",
+							"           pm.collectionVariables.set(\"shipdate\",randomid);\r",
+							"             // pm.collectionVariables.set(\"statuseid\",randomvalue);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "accept",
+						"value": "application/json"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"id\": \"{{orderid}}\",\n  \"petId\": \"{{petid}}\",\n  \"quantity\": \"{{quantitiy}}\",\n  \"shipDate\": \"{{shipdate}}\",\n  \"status\": \"placed\",\n  \"complete\": true\n}"
+				},
+				"url": {
+					"raw": "https://petstore.swagger.io/v2/store/order",
+					"protocol": "https",
+					"host": [
+						"petstore",
+						"swagger",
+						"io"
+					],
+					"path": [
+						"v2",
+						"store",
+						"order"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetOrderID",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							"\r",
+							"pm.test(\"Status code is 200\",()=> {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"validate json id\",()=> {\r",
+							"var jsondata  = JSON.parse(responseBody);\r",
+							"pm.expect(jsondata.id).to.eql(pm.collectionVariables.get(\"orderid\"));\r",
+							"\r",
+							"console.log(pm.collectionVariables.get(\"orderid\"));\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://petstore.swagger.io/v2/store/order/{{orderid}}",
+					"protocol": "https",
+					"host": [
+						"petstore",
+						"swagger",
+						"io"
+					],
+					"path": [
+						"v2",
+						"store",
+						"order",
+						"{{orderid}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "EditOrderID",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "accept",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "https://petstore.swagger.io/v2/store/inventory",
+					"protocol": "https",
+					"host": [
+						"petstore",
+						"swagger",
+						"io"
+					],
+					"path": [
+						"v2",
+						"store",
+						"inventory"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DeleteOrderID",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.collectionVariables.unset(\"orderid\");\r",
+							"pm.collectionVariables.unset(\"petid\");\r",
+							"pm.collectionVariables.unset(\"quantitiy\");\r",
+							"    pm.collectionVariables.unset(\"shipdate\");\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "accept",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "https://petstore.swagger.io/v2/store/order/{{orderid}}",
+					"protocol": "https",
+					"host": [
+						"petstore",
+						"swagger",
+						"io"
+					],
+					"path": [
+						"v2",
+						"store",
+						"order",
+						"{{orderid}}"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
